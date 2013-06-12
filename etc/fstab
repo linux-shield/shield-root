@@ -1,0 +1,4 @@
+proc		/proc	proc	defaults    0	0
+sysfs		/sys	sysfs	defaults    0   0
+debugfs		/d	debugfs	defaults    0   0
+
