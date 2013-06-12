@@ -1,3 +1,7 @@
 #! /bin/sh
 
+/bin/mount /proc
+/bin/mount /sys
+echo /sbin/mdev >/proc/sys/kernel/hotplug
+mdev -s
 /bin/mount -a
