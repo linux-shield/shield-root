@@ -20,7 +20,7 @@ Requirements
 - Locked or unlocked SHIELD
 - Fastboot binary
 
-Getting root is done in two steps: first, we will unlock the bootloader, then we will boot a custom OS image that will add SuperSU to our Android system partition.
+Getting root is done in two steps: first, we will unlock the bootloader, then boot a custom OS image that will add SuperSU to our Android system partition.
 
 Unlocking SHIELD
 ----------------
@@ -32,15 +32,15 @@ By unlocking the bootloader, you allow anyone with physical access to your SHIEL
 
 If you know you really, really want to take these risks, here is how you unlock SHIELD's bootloader.
 
-1. Switch your SHIELD off (long press the SHIELD button and select `Power off`).
+1. Switch your SHIELD off (long press the NVIDIA logo button and select `Power off`).
 2. Power your SHIELD on while maintaining the `back` and `home` buttons pressed (these are the two buttons that lie under the big NVIDIA-logo button, on its left and right). Release them once you see the bootloader screen.
 3. Connect your SHIELD to your computer using a USB cable.
 4. On your computer, enter the following command:
 
-    fastboot oem unlock
+        fastboot oem unlock
 
-5. This will display the unlock menu. Read the disclaimer and think one last time about what you are doing. It is not too late to stop.
-6. Use the `back` and `home` buttons to select your option. If you decide to continue, select `Unlock` and press the SHIELD button to validate. Your personal data will be erased and your device marked as having been unlocked permanently.
+5. This will display the unlock menu. Read the disclaimer and think one last time about what you are doing. This is your last chance to stop.
+6. Use the `back` and `home` buttons to select your option. If you decide to continue, select `Unlock` and press the NVIDIA-logo button to validate. Your personal data will be erased and your device marked as warranty-void permanently.
 7. Regardless of your choice, you will be back to the bootloader screen. Using the same buttons, navigate to `Poweroff` and select this to power your SHIELD off.
 
 Rooting SHIELD
@@ -51,13 +51,13 @@ Now your bootloader is unlocked, but you still don't have root access. For this,
 2. Connect your SHIELD to your computer using a USB cable
 3. On your computer, navigate into the directory containing this file and enter the following command:
 
-    fastboot boot zImage_dtb ramfs.img.gz
+        fastboot boot zImage_dtb ramfs.img.gz
 
 The kernel and ramdisk will be downloaded and started. You will see 4 penguins on your screen, and the message `ROOTING SHIELD` will appear. Shortly after, your device will reboot. Congratulations, you are rooted!
 
-For some unknown reason `USB debugging` in `Developer options` will become unchecked after rooting.
+For some unknown reason `USB debugging` in `Developer options` might become unchecked after rooting. You will need to re-check it if you want to use ADB.
 
-It is safe to perform the rooting operation as many times as you want (e.g. after an OTA that removes the ability to root). You user data will not be erased by rooting itself, it is the act of unlocking the bootloader that does.
+It is safe to perform the rooting operation as many times as you want (e.g. after an OTA). Your user data will not be erased by rooting itself, it is the act of unlocking the bootloader that does.
 
 Unrooting and re-locking
 ------------------------
