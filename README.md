@@ -83,3 +83,11 @@ The necessary binaries are already in this repository, but if you want to build 
 2. Delete `ramfs.img.gz` and run `make` into the present project to rebuild it. The SuperSU binaries are in the `rootkit` subdirectory and the script that performs rooting is `/etc/profile`.
 
 You can now run `fastboot boot` to boot on the images you built yourself.
+
+Source release
+--------------
+This binary release uses an unmodified version of Busybox, which source code can be downloaded at https://github.com/linux-shield/busybox. User-space is built from the `examples/bootfloppy` directory with slight modifications to use `mdev`, mount filesystems, and install SuperSU.
+
+This package, as Busybox, is distributed under the terms of the GNU General Public License, version 2. See the LICENSE file for details.
+
+SuperSU is redistributed in its free, unmodified version as kindly permitted by its author.
