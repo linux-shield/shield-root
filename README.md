@@ -47,9 +47,10 @@ Rooting SHIELD
 --------------
 Now your bootloader is unlocked, but you still don't have root access. For this, we need to install SuperSU, and we will do so by booting a custom Linux image that will do this for us.
 
-1. Power your SHIELD on while maintaining the `back` and `home` buttons pressed (these are the two buttons that lie under the big NVIDIA-logo button, on its left and right). Release them once you see the bootloader screen.
-2. Connect your SHIELD to your computer using a USB cable
-3. On your computer, navigate into the directory containing this file and enter the following command:
+1. Download this Github repository from https://github.com/linux-shield/shield-root/archive/master.zip, extract it and go into the `shield-root-master` directory that has been created.
+2. Power your SHIELD on while maintaining the `back` and `home` buttons pressed (these are the two buttons that lie under the big NVIDIA-logo button, on its left and right). Release them once you see the bootloader screen.
+3. Connect your SHIELD to your computer using a USB cable
+4. On your computer, navigate into the directory containing this file and enter the following command:
 
         fastboot boot zImage_dtb ramfs.img.gz
 
