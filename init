@@ -1,0 +1,124 @@
+#!/bin/sh
+
+# Try to stay as close to SuperSU's script as possible
+BIN=/rootkit
+COM=/rootkit
+
+ui_print() {
+echo -n -e "$1\n" > /dev/tty1
+}
+
+set_perm() {
+chown $1:$2 $4
+chmod $3 $4
+}
+
+ch_con() {
+/sbin/setfattr -n security.selinux -v u:object_r:system_file:s0 $1
+}
+
+inst() {
+cp $1 $2
+chmod $3 $2
+}
+
+# Prepare a basic working system
+mkdir /proc
+mkdir /sys
+mkdir /d
+/bin/mount /proc
+/bin/mount /sys
+echo /sbin/mdev >/proc/sys/kernel/hotplug
+mdev -s
+
+ui_print "\n\n\n\n\n"
+ui_print "*****************"
+ui_print "SuperSU installer"
+ui_print "*****************"
+
+ui_print "- Waiting for partitions to enumerate"
+sleep 5
+
+ui_print "- Mounting /system, /data and rootfs"
+# emmc device number will change depending on whether the SD card is inserted or not.
+# Create the device with the right minor number and mount it
+mknod /dev/systempartition b `cat /sys/bus/mmc/devices/mmc2\:0001/block/mmcblk?/mmcblk?p4/dev |sed 's/:/ /'`
+mknod /dev/datapartition b `cat /sys/bus/mmc/devices/mmc2\:0001/block/mmcblk?/mmcblk?p12/dev |sed 's/:/ /'`
+mkdir -p /system
+mount -text4 /dev/systempartition /system
+mkdir -p /data
+mount -text4 /dev/datapartition /data
+
+ui_print "- Disabling OTA survival"
+chattr -i /system/xbin/su
+chattr -i /system/bin/.ext/.su
+chattr -i /system/xbin/daemonsu
+chattr -i /system/etc/install-recovery.sh
+
+ui_print "- Removing old files"
+rm -f /system/bin/su
+rm -f /system/xbin/su
+rm -f /system/xbin/daemonsu
+rm -f /system/bin/.ext/.su
+rm -f /system/etc/install-recovery.sh
+rm -f /system/etc/init.d/99SuperSUDaemon
+rm -f /system/etc/.has_su_daemon
+rm -f /system/etc/.installed_su_daemon
+rm -f /system/app/Superuser.apk
+rm -f /system/app/Superuser.odex
+rm -f /system/app/SuperUser.apk
+rm -f /system/app/SuperUser.odex
+rm -f /system/app/superuser.apk
+rm -f /system/app/superuser.odex
+rm -f /system/app/Supersu.apk
+rm -f /system/app/Supersu.odex
+rm -f /system/app/SuperSU.apk
+rm -f /system/app/SuperSU.odex
+rm -f /system/app/supersu.apk
+rm -f /system/app/supersu.odex
+rm -f /data/dalvik-cache/*com.noshufou.android.su*
+rm -f /data/dalvik-cache/*com.koushikdutta.superuser*
+rm -f /data/dalvik-cache/*Superuser.apk*
+rm -f /data/dalvik-cache/*SuperUser.apk*
+rm -f /data/dalvik-cache/*superuser.apk*
+rm -f /data/dalvik-cache/*eu.chainfire.supersu*
+rm -f /data/dalvik-cache/*Supersu.apk*
+rm -f /data/dalvik-cache/*SuperSU.apk*
+rm -f /data/dalvik-cache/*supersu.apk*
+rm -f /data/app/com.noshufou.android.su-*
+rm -f /data/app/com.koushikdutta.superuser-*
+rm -f /data/app/eu.chainfire.supersu-*
+
+ui_print "- Placing files"
+mkdir -p /system/bin/.ext
+cp $BIN/su /system/xbin/daemonsu
+cp $BIN/su /system/xbin/su
+cp $BIN/su /system/bin/.ext/.su
+cp $COM/Superuser.apk /system/app/Superuser.apk
+cp $COM/install-recovery.sh /system/etc/install-recovery.sh
+echo 1 > /system/etc/.has_su_daemon
+echo 1 > /system/etc/.installed_su_daemon
+
+ui_print "- Setting permissions"
+set_perm 0 0 0777 /system/bin/.ext
+set_perm 0 0 06755 /system/bin/.ext/.su
+set_perm 0 0 06755 /system/xbin/su
+set_perm 0 0 06755 /system/xbin/daemonsu
+set_perm 0 0 0755 /system/etc/install-recovery.sh
+set_perm 0 0 0644 /system/etc/.has_su_daemon
+set_perm 0 0 0644 /system/etc/.installed_su_daemon
+set_perm 0 0 0644 /system/app/Superuser.apk
+
+ch_con /system/bin/.ext/.su
+ch_con /system/xbin/su
+ch_con /system/xbin/daemonsu
+ch_con /system/etc/install-recovery.sh
+ch_con /system/etc/.has_su_daemon
+ch_con /system/etc/.installed_su_daemon
+ch_con /system/app/Superuser.apk
+
+# Cleanup and reboot
+umount /data
+umount /system
+ui_print "- Rebooting in 10 seconds..."
+reboot -f -d 10

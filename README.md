@@ -1,7 +1,7 @@
 Root for NVIDIA SHIELD
 ======================
 
-This is a very basic rooting method for NVIDIA SHIELD, which uses a Linux kernel and a simple ramdisk to install SuperSU [1] on an unlocked device.
+This is a very basic rooting method for NVIDIA SHIELD, which uses a Linux kernel and a simple ramdisk to install SuperSU [1] on an unlocked device. It should work with any Android version, including 4.3.
 
 [1] https://play.google.com/store/apps/details?id=eu.chainfire.supersu
 
