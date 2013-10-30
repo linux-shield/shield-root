@@ -81,7 +81,7 @@ Rebuilding
 The necessary binaries are already in this repository, but if you want to build things by yourself, here is how you do:
 
 1. Compile a bootable DTB-appended kernel zImage from this project: https://github.com/linux-shield/kernel, and copy it to `zImage_dtb`. The binary included replaces the `ignore_loglevel` kernel command-line option with `loglevel=0` to remove kernel log messages.
-2. Delete `ramfs.img.gz` and run `make` into the present project to rebuild it. The SuperSU binaries are in the `rootkit` subdirectory and the script that performs rooting is `/etc/profile`.
+2. Delete `ramfs.img.gz` and run `make` into the present project to rebuild it. The SuperSU binaries are in the `rootkit` subdirectory and the script that performs rooting is `/init`.
 
 You can now run `fastboot boot` to boot on the images you built yourself.
 
