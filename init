@@ -4,6 +4,10 @@
 BIN=/rootkit
 COM=/rootkit
 
+ch_attr() {
+[ -e $1 ] && chattr -i $1
+}
+
 ui_print() {
 echo -n -e "$1\n" > /dev/tty1
 }
@@ -50,10 +54,10 @@ mkdir -p /data
 mount -text4 /dev/datapartition /data
 
 ui_print "- Disabling OTA survival"
-chattr -i /system/xbin/su
-chattr -i /system/bin/.ext/.su
-chattr -i /system/xbin/daemonsu
-chattr -i /system/etc/install-recovery.sh
+ch_attr /system/xbin/su
+ch_attr /system/bin/.ext/.su
+ch_attr /system/xbin/daemonsu
+ch_attr /system/etc/install-recovery.sh
 
 ui_print "- Removing old files"
 rm -f /system/bin/su
