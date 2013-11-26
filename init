@@ -1,5 +1,10 @@
 #!/bin/sh
 
+ui_reboot() {
+ui_print "- Rebooting in 10 seconds..."
+reboot -f -d 10
+}
+
 # Try to stay as close to SuperSU's script as possible
 BIN=/rootkit
 COM=/rootkit
@@ -35,7 +40,26 @@ mkdir /d
 echo /sbin/mdev >/proc/sys/kernel/hotplug
 mdev -s
 
-ui_print "\n\n\n\n\n"
+ui_print "\n\n"
+
+MODEL=`cat /proc/device-tree/model`
+
+if [ "$MODEL" == "NVIDIA SHIELD" ]; then
+MMCDEV=2
+SYSTEMPART=4
+elif [ "$MODEL" == "Tegra Note 7" ]; then
+MMCDEV=0
+SYSTEMPART=5
+else
+ui_print "- Unknown model $MODEL"
+ui_print "- Cannot root this device"
+ui_reboot
+fi
+
+ui_print "\n\n"
+ui_print "- Identified $MODEL"
+
+ui_print "\n\n"
 ui_print "*****************"
 ui_print "SuperSU installer"
 ui_print "*****************"
@@ -46,8 +70,14 @@ sleep 5
 ui_print "- Mounting /system, /data and rootfs"
 # emmc device number will change depending on whether the SD card is inserted or not.
 # Create the device with the right minor number and mount it
-mknod /dev/systempartition b `cat /sys/bus/mmc/devices/mmc2\:0001/block/mmcblk?/mmcblk?p4/dev |sed 's/:/ /'`
-mknod /dev/datapartition b `cat /sys/bus/mmc/devices/mmc2\:0001/block/mmcblk?/mmcblk?p12/dev |sed 's/:/ /'`
+mknod /dev/systempartition b `cat /sys/bus/mmc/devices/mmc$MMCDEV\:0001/block/mmcblk?/mmcblk?p$SYSTEMPART/dev |sed 's/:/ /'`
+mknod /dev/datapartition b `cat /sys/bus/mmc/devices/mmc$MMCDEV\:0001/block/mmcblk?/mmcblk?p12/dev |sed 's/:/ /'`
+
+if [ ! -b /dev/systempartition -o ! -b /dev/datapartition ]; then
+ui_print "- Cannot find system or data partition, aborting..."
+ui_reboot
+fi
+
 mkdir -p /system
 mount -text4 /dev/systempartition /system
 mkdir -p /data
@@ -124,5 +154,4 @@ ch_con /system/app/Superuser.apk
 # Cleanup and reboot
 umount /data
 umount /system
-ui_print "- Rebooting in 10 seconds..."
-reboot -f -d 10
+ui_reboot
