@@ -35,7 +35,9 @@ If you know you really, really want to take these risks, here is how you unlock 
 1. Switch your device off (long press the power button and select `Power off`).
 2. **For SHIELD:** power your SHIELD on while maintaining the `back` and `home` buttons pressed (these are the two buttons that lie under the big NVIDIA-logo button, on its left and right). Release them once you see the bootloader screen.
 
-   **For TN7:** power the tablet on while maintaining the `volume up` button pressed. Release it once you see the bootloader screen.
+   **For TN7:** power the tablet on while maintaining the `volume up` button pressed. Release it once you see the bootloader screen. Then select `Fastboot Protocol` and press the power button.
+
+   If the above does not work, try enabling `USB debugging` in the `Developer options` from Android, then issue `adb reboot-bootloader` while your device is connected to your PC via USB.
 3. Connect your device to your computer using a USB cable.
 4. On your computer, enter the following command:
 
@@ -56,7 +58,7 @@ Now your bootloader is unlocked, but you still don't have root access. For this,
    **For TN7:** https://github.com/linux-shield/shield-root/blob/master/root_tn7.img?raw=true
 2. **For SHIELD:** power your SHIELD on while maintaining the `back` and `home` buttons pressed (these are the two buttons that lie under the big NVIDIA-logo button, on its left and right). Release them once you see the bootloader screen.
 
-   **For TN7:** power the tablet on while maintaining the `volume up` button pressed. Release it once you see the bootloader screen.
+   **For TN7:** power the tablet on while maintaining the `volume up` button pressed. Release it once you see the bootloader screen. Then select `Fastboot Protocol` and press the power button.
 
    If the above does not work, try enabling `USB debugging` in the `Developer options` from Android, then issue `adb reboot-bootloader` while your device is connected to your PC via USB.
 3. Connect your device to your computer using a USB cable
