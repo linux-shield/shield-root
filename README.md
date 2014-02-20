@@ -1,7 +1,9 @@
 Root for NVIDIA SHIELD & Tegra Note 7
 =====================================
 
-This is a very basic rooting method for NVIDIA SHIELD and Tegra Note 7, which uses a Linux kernel and a simple ramdisk to install SuperSU [1] on an unlocked device. It should work with any Android version, including 4.3.
+This rooting method for NVIDIA SHIELD and Tegra Note 7 uses a Linux kernel and a simple ramdisk to install SuperSU [1] on an unlocked device. It should work with any Android version.
+
+This method does *not* require you to install a custom recovery, which means you will be able to receive and apply OTA updates. However, it also means you will likely need to re-root your device after each update.
 
 [1] https://play.google.com/store/apps/details?id=eu.chainfire.supersu
 
@@ -13,7 +15,7 @@ This is not for the faint of heart or the clueless. This method comes without an
 
 Do not expect **any** kind of support from anyone if you don't understand this guide or if something goes wrong. It goes without saying that everything said here is unofficial and unsupported by NVIDIA.
 
-You have been warned! Better stop now.
+You have been warned! If you are happy with your device, it's probably better to stop now.
 
 Requirements
 ------------
@@ -24,7 +26,7 @@ Getting root is done in two steps: first, we will unlock the bootloader, then bo
 
 Unlocking
 ---------
-If your device is already unlocked, you can skip this section.
+If your device is already unlocked, you can skip this section. Otherwise, remember that you only need to perform this operation the first time you root your device (i.e. you don't need to do it again when you re-root after an OTA).
 
 SHIELD and Tegra Note 7 ship with an unlockable bootloader. The bootloader is locked by default, which prevents anyone (including yourself) from booting custom OSes and changing system partitions to potentially obtain extra privileges. This is a significant security feature: in the event that your device gets stolen, an attacker will not be able to retrieve your personal data or use your device if your lock screen has a password set.
 
