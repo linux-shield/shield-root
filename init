@@ -1,5 +1,11 @@
 #!/bin/sh
 
+alias cp='cp 2>/dev/null'
+alias rm='rm 2>/dev/null'
+alias chattr='chattr 2>/dev/null'
+alias chown='chown 2>/dev/null'
+alias chmod='chmod 2>/dev/null'
+
 ui_reboot() {
 ui_print "- Rebooting in 10 seconds..."
 reboot -f -d 10
@@ -23,7 +29,7 @@ chmod $3 $4
 }
 
 ch_con() {
-/sbin/setfattr -n security.selinux -v u:object_r:system_file:s0 $1
+/sbin/setfattr -n security.selinux -v u:object_r:system_file:s0 $1 2>/dev/null
 }
 
 inst() {
@@ -67,7 +73,6 @@ ui_print "*****************"
 ui_print "- Waiting for partitions to enumerate"
 sleep 5
 
-ui_print "- Mounting /system, /data and rootfs"
 # emmc device number will change depending on whether the SD card is inserted or not.
 # Create the device with the right minor number and mount it
 mknod /dev/systempartition b `cat /sys/bus/mmc/devices/mmc$MMCDEV\:0001/block/mmcblk?/mmcblk?p$SYSTEMPART/dev |sed 's/:/ /'`
@@ -78,6 +83,7 @@ ui_print "- Cannot find system or data partition, aborting..."
 ui_reboot
 fi
 
+ui_print "- Mounting /system, /data and rootfs"
 mkdir -p /system
 mount -text4 /dev/systempartition /system
 mkdir -p /data
@@ -125,6 +131,14 @@ rm -f /data/app/com.koushikdutta.superuser-*
 rm -f /data/app/com.mgyun.shua.su-*
 rm -f /data/app/eu.chainfire.supersu-*
 
+ui_print "- Creating space"
+cp /system/app/Maps.apk /Maps.apk
+cp /system/app/GMS_Maps.apk /GMS_Maps.apk
+cp /system/app/YouTube.apk /YouTube.apk
+rm /system/app/Maps.apk
+rm /system/app/GMS_Maps.apk
+rm /system/app/YouTube.apk
+
 ui_print "- Placing files"
 mkdir -p /system/bin/.ext
 cp $BIN/su /system/xbin/daemonsu
@@ -132,7 +146,16 @@ cp $BIN/su /system/xbin/su
 cp $BIN/su /system/bin/.ext/.su
 cp $COM/Superuser.apk /system/app/Superuser.apk
 cp $COM/install-recovery.sh /system/etc/install-recovery.sh
+cp $COM/99SuperSUDaemon /system/etc/init.d/99SuperSUDaemon
 echo 1 > /system/etc/.installed_su_daemon
+
+ui_print "- Restoring files"
+cp /Maps.apk /system/app/Maps.apk
+cp /GMS_Maps.apk /system/app/GMS_Maps.apk
+cp /YouTube.apk /system/app/YouTube.apk
+rm /Maps.apk
+rm /GMS_Maps.apk
+rm /YouTube.apk
 
 ui_print "- Setting permissions"
 set_perm 0 0 0777 /system/bin/.ext
@@ -140,17 +163,30 @@ set_perm 0 0 06755 /system/bin/.ext/.su
 set_perm 0 0 06755 /system/xbin/su
 set_perm 0 0 0755 /system/xbin/daemonsu
 set_perm 0 0 0755 /system/etc/install-recovery.sh
+set_perm 0 0 0755 /system/etc/init.d/99SuperSUDaemon
 set_perm 0 0 0644 /system/etc/.installed_su_daemon
 set_perm 0 0 0644 /system/app/Superuser.apk
+set_perm 0 0 0644 /system/app/Maps.apk
+set_perm 0 0 0644 /system/app/GMS_Maps.apk
+set_perm 0 0 0644 /system/app/YouTube.apk
 
 ch_con /system/bin/.ext/.su
 ch_con /system/xbin/su
 ch_con /system/xbin/daemonsu
 ch_con /system/etc/install-recovery.sh
+ch_con /system/etc/init.d/99SuperSUDaemon
 ch_con /system/etc/.installed_su_daemon
 ch_con /system/app/Superuser.apk
+ch_con /system/app/Maps.apk
+ch_con /system/app/GMS_Maps.apk
+ch_con /system/app/YouTube.apk
 
-# Cleanup and reboot
-umount /data
+ui_print "- Post-installation script"
+/system/xbin/su --install
+
+ui_print "- Unmounting /system and /data"
 umount /system
+umount /data
+
+ui_print "- Done !"
 ui_reboot

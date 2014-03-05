@@ -53,6 +53,8 @@ Rooting
 -------
 Now your bootloader is unlocked, but you still don't have root access. For this, we need to install SuperSU, and we will do so by booting a custom Linux image that will install it for us.
 
+Note that you rooting may result in removing the Google Maps and Youtube applications installed on your system partition. If this happens, you can reinstall them from the Play Store.
+
 1. Download the boot image corresponding to your device:
 
    **For SHIELD:** https://github.com/linux-shield/shield-root/blob/master/root_shield.img?raw=true
