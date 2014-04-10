@@ -92,7 +92,9 @@ Then on the screen, select `Lock`. Your bootloader will be locked again. Note th
 
 Troubleshooting
 ---------------
-This method is completely unofficial and you are on your own. No support whatsoever from anyone. Don't do this if you don't understand and accept the potential consequences.
+This method is completely unofficial and you are on your own. Do not expect any support whatsoever from anyone. Don't do this if you don't understand and accept the potential consequences.
+
+If the SuperSU application icon is not visible in the launcher, just install it from the Play Store. Look for "eu.chainfire.supersu" to make sure you are picking the right package.
 
 Rebuilding
 ----------
