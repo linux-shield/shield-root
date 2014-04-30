@@ -96,6 +96,8 @@ This method is completely unofficial and you are on your own. Do not expect any 
 
 If the SuperSU application icon is not visible in the launcher, just install it from the Play Store. Look for "eu.chainfire.supersu" to make sure you are picking the right package.
 
+If you see no reaction when trying to run "su" from adb the first time, run the SuperSU application and try again.
+
 Rebuilding
 ----------
 The necessary binaries are already in this repository, but if you want to build things by yourself, here is how you do:
