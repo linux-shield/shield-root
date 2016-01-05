@@ -1,6 +1,8 @@
 Root for NVIDIA SHIELD & Tegra Note 7
 =====================================
 
+*WARNING: this root method will not work with Android 5.0 (Lollipop) and later images. Generally speaking this method should be considered obsolete, using SuperSU is preferred: http://forum.xda-developers.com/showthread.php?t=1538053*
+
 This rooting method for NVIDIA SHIELD and Tegra Note 7 uses a Linux kernel and a simple ramdisk to install SuperSU [1] on an unlocked device. It should work with any Android version.
 
 This method does *not* require you to install a custom recovery, which means you will be able to receive and apply OTA updates. However, it also means you will likely need to re-root your device after each update.
